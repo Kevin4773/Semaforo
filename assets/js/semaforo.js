@@ -1,45 +1,59 @@
-'use strict'
-let idIntervel
+"use scrict"
 
-const Desligada = document.getElementById('desligada')
-const Vermelho = document.getElementById('Vermelho')
-const Verde = document.getElementById('Verde')
-const Amarelo = document.getElementById('Amrelo')
-const Automatico = document.getElementById('Automatico')
+const semaforo = document.getElementById("semaforo")
+const auto = document.getElementById("automatico")
+let idInterval
 
-function Semaforo() {
-    return Desligada.src.includes("desligada")
+function ligarVermelho(){
+    semaforo.src = "assets/img/vermelho.png"
+    parar()
+    auto.textContent = "Automatico"
 }
 
-function ligarVermelho() {
-    Desligada.src = "assets/img/vermelho.png"
+ function ligarAmarelo(){
+    semaforo.src = "assets/img/amarelo.png" 
+    parar()
+    auto.textContent = "Automatico" 
 }
 
-function ligarVerde() {
-    Desligada.src = "assets/img/verde.png"
+function ligarVerde(){
+    semaforo.src = "assets/img/verde.png"
+    parar()
+    auto.textContent = "Automatico"
 }
 
-function ligarAmarelo() {
-    Desligada.src = "assets/img/amarelo.png"
+function trocarCor(){
+    if(semaforo.src.includes("amarelo")){
+        semaforo.src =  "assets/img/vermelho.png"
+    }
+    else if(semaforo.src.includes("verde")){
+        semaforo.src =  "assets/img/amarelo.png"
+    }
+    else if(semaforo.src.includes("desligado")){
+        semaforo.src =  "assets/img/verde.png"
+    }
+    else{
+        semaforo.src =  "assets/img/verde.png"
+    }
 }
 
-function Auto() {
-    ligarVermelho()
-    setTimeout(() => {
-
-    ligarAmarelo()
-    setTimeout(() => {
-
-    ligarVerde()
-    setTimeout(() => {
-    Auto()
-
-    },300); 
-    },300);
-    },300);
+function ligarAutomatico(){
+    if(auto.textContent == "Automatico"){
+        idInterval = setInterval(trocarCor, 1000)
+        auto.textContent = "parar"
+    }
+    else{
+        parar()
+        semaforo.src = "assets/img/desligado.png"
+        auto.textContent = "Automatico"
+    }
 }
 
-document.getElementById('Vermelho').addEventListener("click", ligarVermelho)
-document.getElementById('Verde').addEventListener("click", ligarVerde)
-document.getElementById('Amarelo').addEventListener("click", ligarAmarelo)
-document.getElementById('Automatico').addEventListener("click", Auto)
+function parar(){
+    clearInterval(idInterval)
+}
+
+document.getElementById("vermelho").addEventListener("click", ligarVermelho)
+document.getElementById("amarelo").addEventListener("click", ligarAmarelo)
+document.getElementById("verde").addEventListener("click", ligarVerde)
+document.getElementById("automatico").addEventListener("click", ligarAutomatico)
